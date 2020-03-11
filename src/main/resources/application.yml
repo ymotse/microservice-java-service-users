@@ -1,0 +1,28 @@
+server:
+  port: 3032
+  error:    whitelabel:      enabled: false
+  
+spring:
+  application:
+    name: microservice-java-service-users
+  logging:
+    level:
+      org.springframework: WARN
+      org.hibernate: WARN  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/service-users-db?useTimezone=true&serverTimezone=UTC
+    username: user
+    password: '@123456'
+  jpa:    hibernate:      ddl-auto: create
+    show-sql: true
+      
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://localhost:3031}/eureka/
+  instance:
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+    
+ribbon:
+  eureka:
+    enabled: true
