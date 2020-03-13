@@ -12,7 +12,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/service-users-db?useTimezone=true&serverTimezone=UTC
     username: user
     password: '@123456'
-  jpa:    hibernate:      ddl-auto: create
+  jpa:    hibernate:      ddl-auto: update
     show-sql: true
       
 eureka:
@@ -26,3 +26,10 @@ eureka:
 ribbon:
   eureka:
     enabled: true
+
+app:
+  properties:
+    secret_signature: SecretSignYmotse
+    token_expiration_minutes: 60
+    
+

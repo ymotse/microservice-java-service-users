@@ -20,12 +20,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "roles")
 public class Role {
-	
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "role_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
-	@Column(name = "role_name", length = 40, nullable = false, unique = true)
-	private String role;
-	
+
+	@Column(name = "name", length = 40, unique = true, nullable = false)
+	private String name;
+
 }

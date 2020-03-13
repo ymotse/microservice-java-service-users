@@ -11,14 +11,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * 
@@ -26,75 +29,74 @@ import lombok.NoArgsConstructor;
  *
  */
 @Data
-@NoArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }) })
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class User implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 
 	@JsonIgnore
 	@Id
-	@Column(name = "id")
-	private long id;
-	
-	@Column(name = "username", unique = true, length = 30, nullable = false, updatable = false)
+	@Column(name = "user_id")
+	private long cont_id;
+
+	@Column(name = "username", length = 30, unique = true, nullable = false)
 	private String username;
-	
+
 	@JsonIgnore
 	@Column(name = "password", nullable = false)
 	private String password;
-	
+
 	@JsonIgnore
 	@Column(name = "enabled", nullable = false)
 	private boolean enabled;
-	
-	@Column(name = "email", unique = true, nullable = false)
+
+	@Column(name = "email", length = 50, unique = true, nullable = false)
 	private String email;
-	
+
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "login_roles", 
-      joinColumns = @JoinColumn(name = "CONT_ID"), 
-      inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
+	@JoinTable(name = "login_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
-	
-	
-	@Override
-	@JsonIgnore
-	public Set<GrantedAuthority> getAuthorities() {
-		Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
-		return authorities;
-	}
 
 	@Override
+	@JsonIgnore
 	public String getPassword() {
 		return this.password;
 	}
 
 	@Override
-	public String getUsername() {
-		return this.username;
-	}
-
-	@Override
+	@JsonIgnore
 	public boolean isAccountNonExpired() {
 		return true;
 	}
 
 	@Override
+	@JsonIgnore
 	public boolean isAccountNonLocked() {
 		return true;
 	}
 
 	@Override
+	@JsonIgnore
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 
 	@Override
+	@JsonIgnore
 	public boolean isEnabled() {
-		return this.enabled;
+		return this.isEnabled();
+	}
+
+	@Override
+	@JsonIgnore
+	public Set<GrantedAuthority> getAuthorities() {
+		Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+		return authorities;
 	}
 
 }
