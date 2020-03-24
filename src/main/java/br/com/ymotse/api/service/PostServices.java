@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.ymotse.api.repository.UserBusinessImpl;
 import br.com.ymotse.api.security.TokenProvider;
 import br.com.ymotse.api.security.authentication.TokenResponse;
 import br.com.ymotse.api.security.authentication.UserForm;
@@ -33,8 +35,11 @@ public class PostServices {
 
 	@Autowired
 	private TokenProvider tokenProvider;
-
+	
 	private static Logger logger = Logger.getLogger(PostServices.class);
+	
+	@Autowired
+	private UserBusinessImpl userBusinessImpl;
 
 	@PostMapping(value = { "/", "" })
 	public ResponseEntity<?> user(@Valid @RequestBody UserForm userForm) throws Exception {
@@ -54,5 +59,10 @@ public class PostServices {
 		TokenResponse tokenResponse = new TokenResponse(jwt, tokenCreated, tokenExpiration);
 		return ResponseEntity.ok(tokenResponse);
 	}
-
+	
+	@PostMapping("/bootstrap")	
+	public ResponseEntity<Object> bootstrap() {
+		return new ResponseEntity<>(userBusinessImpl.bootstrap(), HttpStatus.OK);
+	}
+	
 }
