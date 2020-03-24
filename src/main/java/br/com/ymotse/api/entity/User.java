@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -41,6 +43,7 @@ public class User implements UserDetails {
 	@JsonIgnore
 	@Id
 	@Column(name = "user_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long cont_id;
 
 	@Column(name = "username", length = 30, unique = true, nullable = false)
@@ -97,6 +100,14 @@ public class User implements UserDetails {
 	public Set<GrantedAuthority> getAuthorities() {
 		Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
 		return authorities;
+	}
+
+	public User(String username, String password, boolean enabled, String email, Set<Role> roles) {
+		this.username = username;
+		this.password = password;
+		this.enabled = enabled;
+		this.email = email;
+		this.roles = roles;
 	}
 
 }

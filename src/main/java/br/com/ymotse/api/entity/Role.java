@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,16 +18,21 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "roles")
 public class Role {
 
 	@Id
 	@Column(name = "role_id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
 	@Column(name = "name", length = 40, unique = true, nullable = false)
 	private String name;
+
+	public Role(String name) {
+		this.name = name;
+	}
 
 }

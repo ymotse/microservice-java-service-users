@@ -1,10 +1,14 @@
 package br.com.ymotse.api.repository;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.com.ymotse.api.entity.Role;
 import br.com.ymotse.api.entity.User;
 
 /**
@@ -16,6 +20,9 @@ public class UserBusinessImpl implements UserRepository {
 
 	@Autowired
 	private UserRepository loginRepository;
+
+	@Autowired
+	private RoleBusinessImpl roleBusinessImpl;
 
 	public Optional<User> findByUsername(String p_username) {
 		return loginRepository.findByUsername(p_username);
@@ -74,6 +81,21 @@ public class UserBusinessImpl implements UserRepository {
 	@Override
 	public void deleteAll() {
 		loginRepository.deleteAll();
+	}
+
+	public User bootstrap() {
+
+		Role role = roleBusinessImpl.bootstrap();
+
+		Set<Role> roles = new HashSet<Role>();
+		roles.add(role);
+
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+		User user = findByUsername("ymotse")
+				.orElse(new User("ymotse", passwordEncoder.encode("123"), true, "email@mail.com", roles));
+
+		return save(user);
 	}
 
 }
