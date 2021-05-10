@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -31,10 +32,11 @@ import lombok.ToString;
  *
  */
 @Data
+@Builder
 @Entity
-@Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }) })
-@NoArgsConstructor
+@Table(name = "users")
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class User implements UserDetails {
 

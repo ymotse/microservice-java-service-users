@@ -21,9 +21,9 @@ public class InitialData implements ApplicationListener<ContextRefreshedEvent> {
 	
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-		User user = userService.bootstrap();
-
-		System.out.println("Bootstrap: " + user.getUsername() + " created.");
+//		User user = userService.bootstrap();
+//
+//		System.out.println("Bootstrap: " + user.getUsername() + " created.");
 	}
 
 }

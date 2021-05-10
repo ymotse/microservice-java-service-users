@@ -1,38 +1,34 @@
 package br.com.ymotse.api.utils;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Calendar;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
  * @author yitshhaq.fukushima
  *
  */
-@SpringBootTest
-public class ConverterDatesTests {
+@ExtendWith(SpringExtension.class)
+public class ConverterDatesTest {
 
 	private ConverterDates converterDates;
 
 	private Calendar calendar;
 
-	private String stringCalendarExpected;
+	private String stringCalendarExpected = "2020-02-10 15:00:00";
 
-	@Before
-	public void setup() {
+	
+	@Test
+	void convertCalendarToStringDateAndTime_test() {
+
 		converterDates = new ConverterDates();
 
 		calendar = Calendar.getInstance();
 		calendar.set(2020, 01, 10, 15, 00, 00);
-
-		stringCalendarExpected = "2020-02-10 15:00:00";
-	}
-
-	@Test
-	public void convertCalendarToStringDateAndTime_test() {
 
 		assertEquals(stringCalendarExpected, converterDates.convertCalendarToStringDateAndTime(calendar));
 
