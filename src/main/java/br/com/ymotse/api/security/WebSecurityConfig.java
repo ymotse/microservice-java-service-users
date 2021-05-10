@@ -2,7 +2,6 @@ package br.com.ymotse.api.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -16,21 +15,20 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import br.com.ymotse.api.security.authentication.UserDetailsServiceImpl;
+import br.com.ymotse.api.service.UserService;
 
 /**
  * 
  * @author yitshhaq.fukushima
  *
  */
-@Configuration
 @EnableWebMvc
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private UserDetailsServiceImpl userDetailsServiceImpl;
+	private UserService userService;
 
 	@Autowired
 	private TokenEntryPoint tokenEntryPoint;
@@ -65,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(new BCryptPasswordEncoder());
+		auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
 	}
 
 }
